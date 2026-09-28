@@ -16,6 +16,27 @@ a{text-decoration:none}
 #Main table{width:100%;border-collapse:collapse;font-size:12px}
 #Main th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
 #Main td{padding:7px 4px;border-bottom:1px solid #1f242e}
+#Controls{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Controls .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:14px;box-sizing:border-box}
+#Controls .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Controls .mono{font-family:'JetBrains Mono',monospace}
+#Controls .b{min-height:32px;padding:0 10px;background:#1c2330;color:#e6e8ee;border:1px solid #2c3240;border-radius:6px;font:inherit;font-size:12px}
+#Controls .bg{min-height:32px;padding:0 10px;background:#1f6f4a;color:#fff;border:0;border-radius:6px;font:inherit;font-size:12px}
+#Controls .br{min-height:32px;padding:0 10px;background:#3a1a1d;color:#ff9a9e;border:1px solid #6b262b;border-radius:6px;font:inherit;font-size:12px}
+#Controls .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:6px;padding:6px 8px;font-size:12px;font-family:'JetBrains Mono',monospace}
+#Controls .row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px}
+#Controls table{width:100%;border-collapse:collapse;font-size:12px}
+#Controls th{text-align:left;color:#8b93a3;font-weight:500;padding:5px 4px;border-bottom:1px solid #262b36}
+#Controls td{padding:5px 4px;border-bottom:1px solid #1f242e}
+#Controls .ok{color:#5fd49e}
+#Controls .bad{color:#e5484d}
+#Controls .warn{color:#f5a524}
+#GoLive{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#07080b}
+#GoLive .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:8px;padding:10px;font-size:14px;font-family:'JetBrains Mono',monospace}
+#GoLive .ok{color:#5fd49e}
+#GoLive .bad{color:#e5484d}
+#GoLive .warn{color:#f5a524}
+#GoLive .ck{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #1f242e}
 #Opportunities{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
 #Opportunities .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
 #Opportunities .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
@@ -148,10 +169,10 @@ a{text-decoration:none}
 #Login{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0b0d11}
 #Login .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:8px;padding:12px;font-size:14px;font-family:inherit}
 #KillConfirm{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
-#KillConfirm .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:8px;padding:11px;font-size:14px;font-family:'JetBrains Mono',monospace}
+#KillConfirm .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:8px;padding:10px;font-size:14px;font-family:'JetBrains Mono',monospace}
 </style></head><body>
 <div id="bar"><strong>TRI-ARB prototype</strong><span style="color:#8b93a3">Wireframe · sample data · click sidebar/links to navigate</span><span style="flex:1"></span>
-<button id="prev">◀</button><select id="jump"><option value="Main">Dashboard</option><option value="Opportunities">Live Opportunities</option><option value="Execution">Execution</option><option value="Risk">Risk &amp; Kill Switch</option><option value="Infra">Chains &amp; Infra</option><option value="Analytics">Analytics</option><option value="Lab">Simulation Lab</option><option value="Paper">Paper</option><option value="Trace">Trade Trace</option><option value="Liquidity">Liquidity Sources</option><option value="Capital">Capital &amp; Tiers</option><option value="Audit">Audit Log</option><option value="History">History &amp; Export</option><option value="Settings">Configuration</option><option value="Login">Login</option><option value="KillConfirm">Kill</option></select><button id="next">▶</button>
+<button id="prev">◀</button><select id="jump"><option value="Main">Dashboard</option><option value="Controls">Engine Control Center</option><option value="GoLive">Start / Resume / Go Live</option><option value="Opportunities">Live Opportunities</option><option value="Execution">Execution</option><option value="Risk">Risk &amp; Kill Switch</option><option value="Infra">Chains &amp; Infra</option><option value="Analytics">Analytics</option><option value="Lab">Simulation Lab</option><option value="Paper">Paper</option><option value="Trace">Trade Trace</option><option value="Liquidity">Liquidity Sources</option><option value="Capital">Capital &amp; Tiers</option><option value="Audit">Audit Log</option><option value="History">History &amp; Export</option><option value="Settings">Configuration</option><option value="Login">Login</option><option value="KillConfirm">Stop dialog (graceful / kill)</option></select><button id="next">▶</button>
 <label><input type="checkbox" id="fit" checked> Fit to window</label></div>
 <div id="stage"><section id="Main" class="screen">
 <div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
@@ -161,7 +182,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -176,10 +197,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Dashboard</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -230,6 +251,131 @@ a{text-decoration:none}
 </div>
 </div>
 </section>
+<section id="Controls" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Engine Control Center</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
+</header>
+
+<main style="padding: 16px 24px; display: flex; flex-direction: column; gap: 12px">
+<div class="panel" style="display: flex; align-items: center; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 2px"><span class="lbl">Global engine</span><span class="ok mono" style="font-size: 18px; font-weight: 600">● RUNNING · LIVE</span><span style="font-size: 11px; color: #8b93a3">since 09-21 09:14 · 5 chains · 6 instances</span></div>
+<div style="flex-grow: 1"></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><span class="lbl">Mode</span><div style="display: flex; border: 1px solid #2c3240; border-radius: 8px; overflow: hidden"><a href="#GoLive" style="padding: 9px 16px; font-size: 13px; color: #aab2c0; text-decoration: none">Paper</a><span style="padding: 9px 16px; font-size: 13px; background: #1f6f4a; color: #fff">Live</span></div></div>
+<a href="#GoLive" style="padding: 11px 16px; background: #1f6f4a; color: #fff; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none">Start / Resume…</a>
+<button type="button" style="min-height: 42px; padding: 0 16px; background: #2a241a; color: #f5c16b; border: 1px solid #5a4a26; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600">Pause (finish in-flight)</button>
+<a href="#KillConfirm" style="padding: 11px 16px; background: #7a1d22; color: #fff; border: 1px solid #e5484d; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop… (graceful / kill)</a>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
+<div class="panel"><div class="lbl" style="margin-bottom: 6px">Per-chain control</div>
+<table><thead><tr><th>Chain</th><th>State</th><th>Mode</th><th>Max exposure</th><th>Actions</th></tr></thead><tbody class="mono">
+<tr><td>Ethereum</td><td class="ok">RUNNING</td><td>LIVE</td><td>$30k</td><td><button type="button" class="b">Pause</button> <button type="button" class="br">Stop</button></td></tr>
+<tr><td>BNB Chain</td><td class="ok">RUNNING</td><td>LIVE</td><td>$10k</td><td><button type="button" class="b">Pause</button> <button type="button" class="br">Stop</button></td></tr>
+<tr><td>Arbitrum</td><td class="warn">AUTO-PAUSED</td><td>LIVE</td><td>$10k</td><td><a href="#GoLive" class="bg" style="display: inline-flex; align-items: center; text-decoration: none">Resume…</a> <button type="button" class="br">Stop</button></td></tr>
+<tr><td>Base</td><td class="ok">RUNNING</td><td>LIVE</td><td>$15k</td><td><button type="button" class="b">Pause</button> <button type="button" class="br">Stop</button></td></tr>
+<tr><td>Solana</td><td style="color: #8fb4ff">RUNNING</td><td>PAPER</td><td>—</td><td><a href="#GoLive" class="bg" style="display: inline-flex; align-items: center; text-decoration: none">Go live…</a> <button type="button" class="br">Stop</button></td></tr>
+</tbody></table>
+<div style="font-size: 11px; color: #8b93a3; margin-top: 6px">Max exposure can be lowered here, never raised above the capital-scaling limit.</div></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 6px">Engine instances</div>
+<table><thead><tr><th>Instance</th><th>Specialization</th><th>State</th><th>Actions</th></tr></thead><tbody class="mono">
+<tr><td>inst-01</td><td>3_HOP_CORE · ETH</td><td class="ok">run</td><td><button type="button" class="b">Pause</button> <button type="button" class="b">Restart</button></td></tr>
+<tr><td>inst-02</td><td>STABLE_TRI · ETH</td><td class="ok">run</td><td><button type="button" class="b">Pause</button> <button type="button" class="b">Restart</button></td></tr>
+<tr><td>inst-03</td><td>BLUE_CHIPS · BASE</td><td class="ok">run</td><td><button type="button" class="b">Pause</button> <button type="button" class="b">Restart</button></td></tr>
+<tr><td>inst-04</td><td>CROSS_DEX · BNB</td><td class="ok">run</td><td><button type="button" class="b">Pause</button> <button type="button" class="b">Restart</button></td></tr>
+<tr><td>inst-05</td><td>LONG_TAIL · ARB</td><td class="warn">paused</td><td><button type="button" class="bg">Start</button> <button type="button" class="b">Restart</button></td></tr>
+<tr><td>inst-06</td><td>3_HOP_CORE · SOL</td><td class="ok">run</td><td><button type="button" class="b">Pause</button> <button type="button" class="b">Restart</button></td></tr>
+</tbody></table>
+<div style="font-size: 11px; color: #8b93a3; margin-top: 6px">Specialization is read from config at boot; changing it requires Restart.</div></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<div class="panel" style="display: flex; flex-direction: column; gap: 7px"><div class="lbl">Tunable parameters · within hard limits</div>
+<label class="row">Min net profit (USD)<span><input class="in" value="5" style="width: 60px"> <span style="color: #8b93a3">≥ $1</span></span></label>
+<label class="row">Liquidity safety buffer<span><input class="in" value="20%" style="width: 60px"> <span style="color: #8b93a3">10–50%</span></span></label>
+<label class="row">Latency budget<span><input class="in" value="8 ms" style="width: 60px"> <span style="color: #8b93a3">≤ 20ms</span></span></label>
+<label class="row">Max MEV tip (% gross)<span><input class="in" value="25%" style="width: 60px" disabled> <span style="color: #8b93a3">hard 25%</span></span></label>
+<label class="row">Min P(success)<span><input class="in" value="0.55" style="width: 60px"> <span style="color: #8b93a3">0.3–0.95</span></span></label>
+<label class="row">Public mempool fallback<input type="checkbox"></label>
+<label class="row">Enable 4+ hop strategy (isolated)<input type="checkbox"></label>
+<button type="button" class="bg" style="align-self: flex-end">Apply (2FA + reason)</button></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 7px"><div class="lbl">Block / enable</div>
+<div class="row"><input class="in" value="token, route or pool address" style="flex-grow: 1"><button type="button" class="br">Blacklist</button></div>
+<div style="font-size: 11px; color: #8b93a3">Active blacklist: PEPE2 (audit) · USDC→AERO→WETH (manual, 24h)</div>
+<label class="row">DEX · Uniswap v3<input type="checkbox" checked></label>
+<label class="row">DEX · Curve<input type="checkbox" checked></label>
+<label class="row">DEX · Aerodrome<input type="checkbox" checked></label>
+<label class="row">Flash loan · Aave v3<input type="checkbox" checked></label>
+<label class="row">Flash loan · Balancer<input type="checkbox" checked></label>
+<label class="row">Relay · Flashbots / Jito / bloXroute<input type="checkbox" checked></label>
+<span style="font-size: 11px; color: #8b93a3">Adding to whitelists → token hygiene audit + multisig tx</span></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 7px"><div class="lbl">Operational actions</div>
+<div class="row"><span>Stuck tx · ETH-k2 nonce 9,771</span><span><button type="button" class="b">Speed up</button> <button type="button" class="br">Cancel</button></span></div>
+<div class="row"><span>RPC · ARB provider-b diverged</span><button type="button" class="b">Take out of rotation</button></div>
+<div class="row"><span>Circuit breaker · Arbitrum</span><button type="button" class="b">Reset after cool-down</button></div>
+<div class="row"><span>Models drifting (SOL −12.8%)</span><button type="button" class="b">Force recalibration</button></div>
+<div class="row"><span>Route / graph cache</span><button type="button" class="b">Rebuild</button></div>
+<div class="row"><span>Asset pinning</span><button type="button" class="b">Exclude / pin asset…</button></div>
+<div class="row"><span>Profit sweep to treasury</span><button type="button" class="b">Propose (multisig)</button></div>
+<div class="row"><span>Capital scale-up</span><a href="#Capital" style="color: #7fa9ff">Review evidence →</a></div>
+<span style="font-size: 11px; color: #8b93a3">Every action: confirmation + reason, written to the audit log</span></div>
+</div>
+<div style="font-size: 11px; color: #8b93a3">Not available by design: picking trades, fixed trade sizes, manual tip amounts, overriding a risk veto, raising hardcoded loss limits.</div>
+</main>
+</div>
+</div>
+</section>
+<section id="GoLive" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; align-items: center; justify-content: center; background: #07080b">
+<div role="dialog" aria-labelledby="gt" style="width: 640px; background: #171a21; border: 1px solid #2d5a41; border-radius: 14px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+<h2 id="gt" style="margin: 0; font-size: 20px">Start / Resume engine</h2>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px">
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #aab2c0">Scope<select class="in"><option>Arbitrum</option><option>All chains</option><option>Single instance…</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #aab2c0">Mode<select class="in"><option>Live</option><option>Paper</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #aab2c0">Starting max size<select class="in"><option>$10k (current limit)</option><option>$2k (probation)</option></select></label>
+</div>
+<div style="background: #0f1115; border: 1px solid #262b36; border-radius: 10px; padding: 8px 14px">
+<div style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8b93a3; padding: 6px 0">Pre-flight checks · must all pass</div>
+<div class="ck"><span>RPC endpoints consistent (block + reserves)</span><span class="ok">✓ 3/3 agree</span></div>
+<div class="ck"><span>Nonce manager in sync, no stuck tx</span><span class="ok">✓</span></div>
+<div class="ck"><span>HSM signer reachable</span><span class="ok">✓ 0.3 ms</span></div>
+<div class="ck"><span>Executor contract not paused · whitelists loaded</span><span class="ok">✓</span></div>
+<div class="ck"><span>Loss limits not breached (hour / 24h)</span><span class="ok">✓</span></div>
+<div class="ck"><span>Circuit breaker cool-down elapsed</span><span class="warn">⏳ 2m 10s left</span></div>
+<div class="ck"><span>Gas balance on signing keys</span><span class="ok">✓ 1.8 ETH</span></div>
+<div class="ck" style="border: 0"><span>Live mode only: paper-trading track record ≥ 7 days</span><span class="ok">✓ 9 days</span></div>
+</div>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #aab2c0">Type START to confirm (LIVE mode spends real capital)<input class="in" value=""></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #aab2c0">Reason (saved to audit log)<input class="in" value="RPC divergence resolved"></label>
+<div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center">
+<span style="font-size: 12px; color: #8b93a3; flex-grow: 1">Button enables when every check is green</span>
+<a href="#Controls" style="min-height: 44px; padding: 0 18px; display: flex; align-items: center; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; text-decoration: none">Cancel</a>
+<a href="#Controls" style="min-height: 44px; padding: 0 18px; display: flex; align-items: center; background: #1f6f4a; color: #fff; border-radius: 8px; font-weight: 600; text-decoration: none; opacity: .55">Start engine</a>
+</div>
+</div>
+</div>
+</section>
 <section id="Opportunities" class="screen">
 <div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
 
@@ -238,7 +384,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -253,10 +399,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Live Opportunities</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: grid; grid-template-columns: 1fr 400px; gap: 16px">
@@ -302,7 +448,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -317,10 +463,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Execution &amp; Transactions</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -360,7 +506,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -375,10 +521,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Risk &amp; Kill Switch</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -421,7 +567,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -436,10 +582,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Chains &amp; Infrastructure</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
@@ -479,7 +625,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -494,10 +640,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Analytics &amp; Calibration</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
@@ -536,7 +682,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -551,10 +697,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Simulation Lab</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -595,7 +741,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -610,10 +756,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Simulation Lab</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -646,7 +792,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -661,10 +807,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Trade Trace · 0x8f2a…c19e</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -706,7 +852,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -721,19 +867,19 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Liquidity Sources</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
 <div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">Flash loan providers</div>
 <table><thead><tr><th>Provider</th><th>Chain</th><th>Fee</th><th>Available liquidity (USDC)</th><th>Used today</th><th>Callback auth</th><th>Whitelisted</th><th>Enabled</th></tr></thead><tbody class="mono">
-<tr><td>Aave v3</td><td>ETH</td><td>0.05%</td><td>$412M</td><td>$1.9M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Aave v3 ETH"></td></tr>
-<tr><td>Balancer vault</td><td>ETH</td><td>0.00%</td><td>$96M</td><td>$0.8M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Balancer ETH"></td></tr>
-<tr><td>Uniswap v3 flash</td><td>BASE</td><td>pool fee</td><td>$38M</td><td>$0.4M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Uniswap Base"></td></tr>
-<tr><td>PancakeSwap v3</td><td>BNB</td><td>pool fee</td><td>$55M</td><td>$0.3M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Pancake BNB"></td></tr>
+<tr><td>Aave v3</td><td>ETH</td><td>0.05%</td><td>$412M</td><td>$1.9M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked="" aria-label="Enable Aave v3 ETH"></td></tr>
+<tr><td>Balancer vault</td><td>ETH</td><td>0.00%</td><td>$96M</td><td>$0.8M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked="" aria-label="Enable Balancer ETH"></td></tr>
+<tr><td>Uniswap v3 flash</td><td>BASE</td><td>pool fee</td><td>$38M</td><td>$0.4M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked="" aria-label="Enable Uniswap Base"></td></tr>
+<tr><td>PancakeSwap v3</td><td>BNB</td><td>pool fee</td><td>$55M</td><td>$0.3M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked="" aria-label="Enable Pancake BNB"></td></tr>
 <tr><td>Solend / Kamino</td><td>SOL</td><td>0.09%</td><td>$21M</td><td>$0.1M</td><td class="warn">testing</td><td>—</td><td><input type="checkbox" aria-label="Enable Kamino SOL"></td></tr>
 </tbody></table>
 <div style="font-size: 12px; color: #8b93a3; padding: 8px 4px">Loan size per trade = min(lender liquidity, route depth, slippage limit, risk limit) · contract bandwidth cap $100M (technical, not a target)</div></div>
@@ -769,7 +915,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -784,10 +930,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Capital &amp; Asset Tiers</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -807,7 +953,7 @@ a{text-decoration:none}
 <tr><td>EV model accuracy</td><td>|Δ| ≤ 5%</td><td>6.2%</td><td class="bad">✗</td></tr>
 </tbody></table>
 <div style="font-size: 12px; color: #f5a524; margin-top: 8px">Scale-up blocked: 2 criteria unmet. A winning streak alone never raises limits.</div>
-<button type="button" disabled style="margin-top: 10px; min-height: 40px; padding: 0 14px; background: #1c2330; color: #6b7280; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Approve scale-up to $40,000</button></div>
+<button type="button" disabled="" style="margin-top: 10px; min-height: 40px; padding: 0 14px; background: #1c2330; color: #6b7280; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Approve scale-up to $40,000</button></div>
 <div class="panel"><div class="lbl" style="margin-bottom: 8px">Limit history</div>
 <table><thead><tr><th>Date</th><th>Max / trade</th><th>Reason</th></tr></thead><tbody class="mono">
 <tr><td>Sep 21</td><td>$30,000</td><td>all criteria met</td></tr><tr><td>Sep 07</td><td>$20,000</td><td>all criteria met</td></tr><tr><td>Aug 30</td><td>$10,000</td><td>go-live (small capital)</td></tr>
@@ -832,7 +978,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -847,10 +993,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Audit Log</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 12px">
@@ -884,7 +1030,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -899,10 +1045,10 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">History &amp; Export</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
@@ -943,7 +1089,7 @@ a{text-decoration:none}
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
 <div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
 </div>
-<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Configuration</a>
+<a href="#Main" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Controls" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Engine Control</a><a href="#Opportunities" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:7px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Configuration</a>
 <div style="flex-grow: 1"></div>
 <div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
 <span>Operator · [OPERATOR NAME]</span>
@@ -958,20 +1104,20 @@ a{text-decoration:none}
 <h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Configuration</h1>
 <label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
 <select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<a href="#Controls" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41; text-decoration: none">● RUNNING · LIVE</a>
 <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
-<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
-<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+<a href="#GoLive" style="background: #1f6f4a; color: #ffffff; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">▶ Start</a>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">■ Stop…</a>
 </header>
 
 <main style="padding: 20px 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
 <div class="panel" style="display: flex; flex-direction: column; gap: 10px"><div class="lbl">Sizing &amp; profit rules</div>
 <label class="row">Min entry · rank 1–1000 (USDT)<input class="in" value="1000"></label>
 <label class="row">Min entry · rank 1001–2000<input class="in" value="250"></label>
-<label class="row">Max size<input class="in" value="DYNAMIC" disabled></label>
+<label class="row">Max size<input class="in" value="DYNAMIC" disabled=""></label>
 <label class="row">Liquidity safety buffer<input class="in" value="20%"></label>
 <label class="row">Min net profit threshold<input class="in" value="$5"></label>
-<label class="row">MEV tip ceiling (% gross)<input class="in" value="25%" disabled></label>
+<label class="row">MEV tip ceiling (% gross)<input class="in" value="25%" disabled=""></label>
 <label class="row">Latency budget<input class="in" value="8 ms"></label>
 <label class="row">Public mempool fallback<input type="checkbox"></label>
 <span style="font-size: 11px; color: #8b93a3">Greyed values are hard limits set in the contract — changes need a multisig tx.</span></div>
@@ -992,10 +1138,10 @@ a{text-decoration:none}
 <div class="row"><span>Withdrawal limit</span><span class="mono">hardcoded</span></div>
 <span style="font-size: 11px; color: #8b93a3">Private keys are never shown or entered in this UI.</span>
 <div class="lbl" style="margin-top: 8px">Alerts (read-only Telegram)</div>
-<label class="row">Execution failures<input type="checkbox" checked></label>
-<label class="row">RPC drops / divergence<input type="checkbox" checked></label>
-<label class="row">Stuck nonces<input type="checkbox" checked></label>
-<label class="row">Breaker / kill switch<input type="checkbox" checked></label></div>
+<label class="row">Execution failures<input type="checkbox" checked=""></label>
+<label class="row">RPC drops / divergence<input type="checkbox" checked=""></label>
+<label class="row">Stuck nonces<input type="checkbox" checked=""></label>
+<label class="row">Breaker / kill switch<input type="checkbox" checked=""></label></div>
 <div class="panel" style="grid-column: span 3; padding: 8px 12px"><div style="display: flex; gap: 8px; padding: 8px 4px; align-items: center"><span class="lbl" style="flex-grow: 1">Whitelists</span><span style="font-size: 12px; padding: 5px 10px; background: #1c2330; border-radius: 6px">Tokens</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Routers / DEX adapters</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Pools</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Flash loan providers</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Builders / relays</span></div>
 <table><thead><tr><th>Token</th><th>Chain</th><th>Rank</th><th>Set</th><th>Hygiene audit</th><th>Flags</th><th>On-chain whitelist</th></tr></thead><tbody class="mono">
 <tr><td>USDC</td><td>ETH</td><td>7</td><td>HOT</td><td class="ok">PASS</td><td>blacklist fn, upgradeable (known)</td><td class="ok">✓</td></tr>
@@ -1020,20 +1166,40 @@ a{text-decoration:none}
 </section>
 <section id="KillConfirm" class="screen">
 <div style="width: 1440px; height: 900px; display: flex; align-items: center; justify-content: center; background: #07080b">
-<div role="dialog" aria-labelledby="kt" style="width: 520px; background: #171a21; border: 1px solid #e5484d; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
-<h2 id="kt" style="margin: 0; font-size: 20px; color: #ff8a8e">Halt all engines?</h2>
-<p style="margin: 0; font-size: 14px; color: #cfd5df; line-height: 1.5">This stops transaction building, signing and relay submission on every chain immediately. Transactions already submitted can’t be recalled; they will be tracked to settlement.</p>
-<fieldset style="border: 1px solid #2c3240; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px"><legend style="color: #8b93a3; padding: 0 6px">Scope</legend>
-<label style="display: flex; gap: 8px"><input type="radio" name="scope" checked> All chains (off-chain kill switch)</label>
-<label style="display: flex; gap: 8px"><input type="radio" name="scope"> Single chain…</label>
-<label style="display: flex; gap: 8px"><input type="radio" name="scope"> Also propose on-chain contract pause (needs 2 of 3 multisig signers)</label></fieldset>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Type HALT to confirm<input class="in" value=""></label>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Reason (saved to audit log)<input class="in" value=""></label>
-<div style="display: flex; gap: 10px; justify-content: flex-end">
-<a href="#Main" style="min-height: 44px; padding: 0 18px; display: flex; align-items: center; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; text-decoration: none">Cancel</a>
-<a href="#Risk" style="min-height: 44px; padding: 0 18px; display: flex; align-items: center; background: #7a1d22; color: #fff; border: 1px solid #e5484d; border-radius: 8px; font-weight: 600; text-decoration: none">Halt now</a>
+<div role="dialog" aria-labelledby="st" style="width: 760px; background: #171a21; border: 1px solid #2c3240; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<h2 id="st" style="margin: 0; font-size: 20px">Stop engine</h2>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Scope<select class="in"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option><option>Single instance…</option></select></label>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px">
+<div style="border: 1px solid #2c3240; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; background: #12151b">
+<strong style="font-size: 16px">Graceful stop</strong>
+<span style="font-size: 12px; color: #8b93a3">Routine: maintenance, config change, overnight pause</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 13px; color: #cfd5df; display: flex; flex-direction: column; gap: 4px; line-height: 1.4">
+<li>No new opportunities taken</li>
+<li>In-flight trades tracked to settlement</li>
+<li>Monitoring and data keep running</li>
+<li>Restart: press Start + pre-flight check</li>
+</ul>
+<div style="flex-grow: 1"></div>
+<a href="#Controls" style="min-height: 44px; display: flex; align-items: center; justify-content: center; background: #1c2330; color: #e6e8ee; border: 1px solid #3a4150; border-radius: 8px; font-weight: 600; text-decoration: none">Stop gracefully</a>
 </div>
-<p style="margin: 0; font-size: 12px; color: #8b93a3">Resuming requires re-login with 2FA and a green pre-flight check on every chain.</p>
+<div style="border: 1px solid #e5484d; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; background: #1d1214">
+<strong style="font-size: 16px; color: #ff8a8e">Emergency kill</strong>
+<span style="font-size: 12px; color: #8b93a3">Something is wrong: bug, losses, suspected key compromise</span>
+<ul style="margin: 0; padding-left: 18px; font-size: 13px; color: #cfd5df; display: flex; flex-direction: column; gap: 4px; line-height: 1.4">
+<li>Building, signing and sending cut instantly</li>
+<li>System enters EMERGENCY state</li>
+<li>Restart: fresh 2FA login + full pre-flight</li>
+</ul>
+<label style="display: flex; gap: 8px; font-size: 13px; align-items: flex-start"><input type="checkbox"> Also propose on-chain contract pause (2 of 3 multisig signers)</label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #aab2c0">Type KILL to confirm<input class="in" value=""></label>
+<a href="#Risk" style="min-height: 44px; display: flex; align-items: center; justify-content: center; background: #7a1d22; color: #fff; border: 1px solid #e5484d; border-radius: 8px; font-weight: 600; text-decoration: none">Kill now</a>
+</div>
+</div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Reason (saved to audit log)<input class="in" value=""></label>
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 12px; color: #8b93a3">Keyboard shortcut for emergency kill: none by design — prevents accidental triggers</span>
+<a href="#Main" style="min-height: 44px; padding: 0 18px; display: flex; align-items: center; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; text-decoration: none">Cancel</a>
+</div>
 </div>
 </div>
 </section>
