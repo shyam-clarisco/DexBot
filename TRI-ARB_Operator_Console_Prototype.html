@@ -1,0 +1,1052 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TRI-ARB Operator Console — Prototype</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+html,body{margin:0;background:#05060a;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#e6e8ee}
+#bar{position:fixed;top:0;left:0;right:0;height:40px;display:flex;align-items:center;gap:12px;padding:0 16px;background:#000;border-bottom:1px solid #232833;font-size:13px;z-index:10}
+#bar select,#bar button{background:#171a21;color:#e6e8ee;border:1px solid #2c3240;border-radius:6px;padding:5px 8px;font:inherit}
+#stage{position:absolute;top:40px;left:0;transform-origin:0 0}
+.screen{display:none;width:1440px;height:900px;overflow:hidden;background:#0f1115}
+.screen.on{display:block}
+a{text-decoration:none}
+#Main{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Main .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Main .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Main .mono{font-family:'JetBrains Mono',monospace}
+#Main table{width:100%;border-collapse:collapse;font-size:12px}
+#Main th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Main td{padding:7px 4px;border-bottom:1px solid #1f242e}
+#Opportunities{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Opportunities .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Opportunities .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Opportunities .mono{font-family:'JetBrains Mono',monospace}
+#Opportunities table{width:100%;border-collapse:collapse;font-size:12px}
+#Opportunities th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Opportunities td{padding:8px 4px;border-bottom:1px solid #1f242e}
+#Opportunities .chip{font-size:12px;padding:6px 10px;border:1px solid #2c3240;border-radius:6px;background:#171a21;color:#cfd5df}
+#Opportunities .ok{color:#5fd49e}
+#Opportunities .bad{color:#e5484d}
+#Execution{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Execution .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Execution .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Execution .mono{font-family:'JetBrains Mono',monospace}
+#Execution table{width:100%;border-collapse:collapse;font-size:12px}
+#Execution th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Execution td{padding:8px 4px;border-bottom:1px solid #1f242e}
+#Execution .st{padding:10px;border-radius:8px;background:#1c2330;border:1px solid #2c3240;display:flex;flex-direction:column;gap:2px;font-size:11px}
+#Execution .ok{color:#5fd49e}
+#Execution .bad{color:#e5484d}
+#Risk{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Risk .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Risk .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Risk .mono{font-family:'JetBrains Mono',monospace}
+#Risk .bar{height:8px;background:#232833;border-radius:4px;overflow:hidden}
+#Risk table{width:100%;border-collapse:collapse;font-size:12px}
+#Risk th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Risk td{padding:8px 4px;border-bottom:1px solid #1f242e}
+#Risk .ok{color:#5fd49e}
+#Risk .bad{color:#e5484d}
+#Risk .warn{color:#f5a524}
+#Infra{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Infra .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Infra .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Infra .mono{font-family:'JetBrains Mono',monospace}
+#Infra table{width:100%;border-collapse:collapse;font-size:12px}
+#Infra th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Infra td{padding:7px 4px;border-bottom:1px solid #1f242e}
+#Infra .ok{color:#5fd49e}
+#Infra .bad{color:#e5484d}
+#Infra .warn{color:#f5a524}
+#Analytics{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Analytics .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Analytics .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Analytics .mono{font-family:'JetBrains Mono',monospace}
+#Analytics table{width:100%;border-collapse:collapse;font-size:12px}
+#Analytics th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Analytics td{padding:7px 4px;border-bottom:1px solid #1f242e}
+#Analytics .ok{color:#5fd49e}
+#Analytics .bad{color:#e5484d}
+#Lab{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Lab .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Lab .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Lab .mono{font-family:'JetBrains Mono',monospace}
+#Lab .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:6px;padding:9px 10px;font-size:13px;font-family:'JetBrains Mono',monospace}
+#Lab table{width:100%;border-collapse:collapse;font-size:12px}
+#Lab td{padding:6px 4px;border-bottom:1px solid #1f242e}
+#Lab .ok{color:#5fd49e}
+#Paper{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Paper .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Paper .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Paper .mono{font-family:'JetBrains Mono',monospace}
+#Paper table{width:100%;border-collapse:collapse;font-size:12px}
+#Paper th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Paper td{padding:7px 4px;border-bottom:1px solid #1f242e}
+#Paper .ok{color:#5fd49e}
+#Paper .bad{color:#e5484d}
+#Trace{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Trace .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Trace .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Trace .mono{font-family:'JetBrains Mono',monospace}
+#Trace table{width:100%;border-collapse:collapse;font-size:12px}
+#Trace th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Trace td{padding:7px 4px;border-bottom:1px solid #1f242e}
+#Trace .ok{color:#5fd49e}
+#Trace .bad{color:#e5484d}
+#Trace .hop{flex-grow:1;padding:12px;border-radius:8px;background:#1c2330;border:1px solid #2c3240;display:flex;flex-direction:column;gap:3px;font-size:12px}
+#Liquidity{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Liquidity .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Liquidity .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Liquidity .mono{font-family:'JetBrains Mono',monospace}
+#Liquidity table{width:100%;border-collapse:collapse;font-size:12px}
+#Liquidity th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Liquidity td{padding:8px 4px;border-bottom:1px solid #1f242e}
+#Liquidity .ok{color:#5fd49e}
+#Liquidity .bad{color:#e5484d}
+#Liquidity .warn{color:#f5a524}
+#Capital{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Capital .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Capital .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Capital .mono{font-family:'JetBrains Mono',monospace}
+#Capital table{width:100%;border-collapse:collapse;font-size:12px}
+#Capital th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Capital td{padding:8px 4px;border-bottom:1px solid #1f242e}
+#Capital .ok{color:#5fd49e}
+#Capital .bad{color:#e5484d}
+#Capital .warn{color:#f5a524}
+#Audit{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Audit .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Audit .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Audit .mono{font-family:'JetBrains Mono',monospace}
+#Audit .chip{font-size:12px;padding:6px 10px;border:1px solid #2c3240;border-radius:6px;background:#171a21;color:#cfd5df}
+#Audit table{width:100%;border-collapse:collapse;font-size:12px}
+#Audit th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Audit td{padding:8px 4px;border-bottom:1px solid #1f242e}
+#Audit .ok{color:#5fd49e}
+#Audit .bad{color:#e5484d}
+#Audit .warn{color:#f5a524}
+#History{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#History .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#History .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#History .mono{font-family:'JetBrains Mono',monospace}
+#History .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:6px;padding:9px 10px;font-size:13px;font-family:'JetBrains Mono',monospace}
+#History table{width:100%;border-collapse:collapse;font-size:12px}
+#History th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#History td{padding:8px 4px;border-bottom:1px solid #1f242e}
+#History .ok{color:#5fd49e}
+#History .bad{color:#e5484d}
+#Settings{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#Settings .panel{background:#171a21;border:1px solid #262b36;border-radius:10px;padding:16px;box-sizing:border-box}
+#Settings .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b93a3}
+#Settings .mono{font-family:'JetBrains Mono',monospace}
+#Settings .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:6px;padding:8px 10px;font-size:13px;font-family:'JetBrains Mono',monospace;width:110px}
+#Settings .row{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:8px}
+#Settings table{width:100%;border-collapse:collapse;font-size:12px}
+#Settings th{text-align:left;color:#8b93a3;font-weight:500;padding:6px 4px;border-bottom:1px solid #262b36}
+#Settings td{padding:7px 4px;border-bottom:1px solid #1f242e}
+#Settings .ok{color:#5fd49e}
+#Settings .bad{color:#e5484d}
+#Login{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0b0d11}
+#Login .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:8px;padding:12px;font-size:14px;font-family:inherit}
+#KillConfirm{margin:0;font-family:'IBM Plex Sans',sans-serif;color:#e6e8ee;background:#0f1115}
+#KillConfirm .in{background:#0f1115;color:#e6e8ee;border:1px solid #2c3240;border-radius:8px;padding:11px;font-size:14px;font-family:'JetBrains Mono',monospace}
+</style></head><body>
+<div id="bar"><strong>TRI-ARB prototype</strong><span style="color:#8b93a3">Wireframe · sample data · click sidebar/links to navigate</span><span style="flex:1"></span>
+<button id="prev">◀</button><select id="jump"><option value="Main">Dashboard</option><option value="Opportunities">Live Opportunities</option><option value="Execution">Execution</option><option value="Risk">Risk &amp; Kill Switch</option><option value="Infra">Chains &amp; Infra</option><option value="Analytics">Analytics</option><option value="Lab">Simulation Lab</option><option value="Paper">Paper</option><option value="Trace">Trade Trace</option><option value="Liquidity">Liquidity Sources</option><option value="Capital">Capital &amp; Tiers</option><option value="Audit">Audit Log</option><option value="History">History &amp; Export</option><option value="Settings">Configuration</option><option value="Login">Login</option><option value="KillConfirm">Kill</option></select><button id="next">▶</button>
+<label><input type="checkbox" id="fit" checked> Fit to window</label></div>
+<div id="stage"><section id="Main" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Dashboard</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px">
+<div class="panel"><div class="lbl">Realized net P&amp;L · 24h</div><div class="mono" style="font-size: 24px; font-weight: 600; color: #5fd49e; margin-top: 6px">+$4,812</div><div style="font-size: 12px; color: #8b93a3">after gas, fees, tips</div></div>
+<div class="panel"><div class="lbl">Sharpe (30d)</div><div class="mono" style="font-size: 24px; font-weight: 600; margin-top: 6px">2.41</div><div style="font-size: 12px; color: #8b93a3">risk-adjusted return</div></div>
+<div class="panel"><div class="lbl">Inclusion success</div><div class="mono" style="font-size: 24px; font-weight: 600; margin-top: 6px">87.3%</div><div style="font-size: 12px; color: #8b93a3">submitted → included</div></div>
+<div class="panel"><div class="lbl">EV vs realized Δ</div><div class="mono" style="font-size: 24px; font-weight: 600; color: #f5a524; margin-top: 6px">−6.2%</div><div style="font-size: 12px; color: #8b93a3">model accuracy</div></div>
+<div class="panel"><div class="lbl">Cost / successful tx</div><div class="mono" style="font-size: 24px; font-weight: 600; margin-top: 6px">$3.18</div><div style="font-size: 12px; color: #8b93a3">incl. reverts</div></div>
+<div class="panel"><div class="lbl">Pipeline p99</div><div class="mono" style="font-size: 24px; font-weight: 600; margin-top: 6px">4.7 ms</div><div style="font-size: 12px; color: #8b93a3">budget 8 ms</div></div>
+</div>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px">
+<div class="panel" style="height: 260px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between"><span class="lbl">Cumulative net profit · expected vs realized</span><span style="font-size: 12px; color: #8b93a3">24h · 7d · 30d</span></div>
+<svg viewBox="0 0 700 190" style="width: 100%; flex-grow: 1"><g stroke="#232833"><line x1="0" y1="40" x2="700" y2="40"></line><line x1="0" y1="95" x2="700" y2="95"></line><line x1="0" y1="150" x2="700" y2="150"></line></g><polyline fill="none" stroke="#4c8dff" stroke-width="2" stroke-dasharray="5 4" points="0,180 80,165 160,150 240,140 320,118 400,100 480,82 560,64 640,44 700,30"></polyline><polyline fill="none" stroke="#3fb984" stroke-width="2.5" points="0,182 80,170 160,158 240,150 320,130 400,118 480,98 560,86 640,66 700,52"></polyline></svg>
+<div style="display: flex; gap: 16px; font-size: 12px; color: #8b93a3"><span style="color: #5fd49e">— Realized</span><span style="color: #7fa9ff">- - Expected (EV)</span></div>
+</div>
+<div class="panel" style="height: 260px; display: flex; flex-direction: column; gap: 8px">
+<span class="lbl">Opportunity funnel · last hour</span>
+<div class="mono" style="display: flex; flex-direction: column; gap: 7px; font-size: 12px">
+<div style="display: flex; justify-content: space-between"><span>Detected</span><span>182,440</span></div><div style="height: 6px; background: #4c8dff; border-radius: 3px; width: 100%"></div>
+<div style="display: flex; justify-content: space-between"><span>Passed EV gate</span><span>1,902</span></div><div style="height: 6px; background: #4c8dff; border-radius: 3px; width: 55%"></div>
+<div style="display: flex; justify-content: space-between"><span>Simulated OK</span><span>611</span></div><div style="height: 6px; background: #4c8dff; border-radius: 3px; width: 32%"></div>
+<div style="display: flex; justify-content: space-between"><span>Submitted</span><span>344</span></div><div style="height: 6px; background: #4c8dff; border-radius: 3px; width: 20%"></div>
+<div style="display: flex; justify-content: space-between"><span>Finalized</span><span style="color: #5fd49e">298</span></div><div style="height: 6px; background: #3fb984; border-radius: 3px; width: 16%"></div>
+</div>
+<span style="font-size: 12px; color: #8b93a3">Top reject reasons: stale state 41% · EV ≤ 0 33% · risk veto 9%</span>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px">
+<div class="panel" style="display: flex; flex-direction: column; gap: 4px"><div style="display: flex; justify-content: space-between"><strong>Ethereum</strong><span style="color: #5fd49e; font-size: 12px">● NORMAL</span></div><span class="mono" style="font-size: 12px; color: #8b93a3">blk 21,904,113 · RPC 3/3</span><span class="mono" style="color: #5fd49e">+$1,920</span></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 4px"><div style="display: flex; justify-content: space-between"><strong>BNB Chain</strong><span style="color: #5fd49e; font-size: 12px">● NORMAL</span></div><span class="mono" style="font-size: 12px; color: #8b93a3">blk 44,120,907 · RPC 3/3</span><span class="mono" style="color: #5fd49e">+$740</span></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 4px"><div style="display: flex; justify-content: space-between"><strong>Arbitrum</strong><span style="color: #f5a524; font-size: 12px">▲ DEGRADED</span></div><span class="mono" style="font-size: 12px; color: #8b93a3">blk 281,003,551 · RPC 2/3</span><span class="mono" style="color: #5fd49e">+$612</span></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 4px"><div style="display: flex; justify-content: space-between"><strong>Base</strong><span style="color: #5fd49e; font-size: 12px">● NORMAL</span></div><span class="mono" style="font-size: 12px; color: #8b93a3">blk 25,400,218 · RPC 3/3</span><span class="mono" style="color: #5fd49e">+$1,003</span></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 4px"><div style="display: flex; justify-content: space-between"><strong>Solana</strong><span style="color: #5fd49e; font-size: 12px">● NORMAL</span></div><span class="mono" style="font-size: 12px; color: #8b93a3">slot 322,118,040 · Jito ✓</span><span class="mono" style="color: #5fd49e">+$537</span></div>
+</div>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px">
+<div class="panel"><span class="lbl">Recent executions</span>
+<table><thead><tr><th>Time</th><th>Chain</th><th>Route</th><th>Size</th><th>Net</th><th>State</th></tr></thead><tbody class="mono">
+<tr><td>17:41:02</td><td>ETH</td><td>USDC→WETH→USDT→USDC</td><td>$30,000</td><td style="color: #5fd49e">+$172</td><td>FINALIZED</td></tr>
+<tr><td>17:40:51</td><td>BASE</td><td>USDC→cbETH→WETH→USDC</td><td>$8,000</td><td style="color: #5fd49e">+$41</td><td>INCLUDED</td></tr>
+<tr><td>17:40:33</td><td>SOL</td><td>USDC→SOL→JUP→USDC</td><td>$2,000</td><td style="color: #e5484d">−$0.42</td><td>FAILED</td></tr>
+</tbody></table></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 8px"><span class="lbl">Alerts</span>
+<div style="font-size: 12px; display: flex; flex-direction: column; gap: 6px"><span style="color: #f5a524">▲ Arbitrum RPC #2 block divergence — halted new pipelines</span><span style="color: #8b93a3">• Nonce replaced (ETH key-2) · 17:38</span><span style="color: #8b93a3">• Token PEPE2 failed hygiene audit · 17:30</span></div></div>
+</div>
+</main>
+</div>
+</div>
+</section>
+<section id="Opportunities" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Live Opportunities</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: grid; grid-template-columns: 1fr 400px; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<span class="chip">Status: All ▾</span><span class="chip">Tier: 1–1000 · 1001–2000 ▾</span><span class="chip">Set: Hot · Warm · Cold ▾</span><span class="chip">Strategy: TRIANGULAR_3_HOP_CORE ▾</span><span class="chip">Min EV &gt; $5</span><span class="chip" style="color: #5fd49e">● Streaming 3,041 opp/s</span>
+</div>
+<div class="panel" style="padding: 8px 12px">
+<table><thead><tr><th>Route (A→B→C→A)</th><th>Chain</th><th>Tier</th><th>Opt. size</th><th>Gross</th><th>Costs</th><th>Net</th><th>P(S)</th><th>EV</th><th>Age</th><th>Status</th></tr></thead><tbody class="mono">
+<tr style="background: #1c2330"><td>USDC→WETH→USDT→USDC</td><td>ETH</td><td>1</td><td>$30,000</td><td>$238</td><td>$66</td><td class="ok">$172</td><td>0.91</td><td class="ok">$154</td><td>38ms</td><td>SIMULATED</td></tr>
+<tr><td>USDC→cbETH→WETH→USDC</td><td>BASE</td><td>1</td><td>$8,000</td><td>$58</td><td>$17</td><td class="ok">$41</td><td>0.88</td><td class="ok">$35</td><td>21ms</td><td>APPROVED</td></tr>
+<tr><td>USDT→BNB→CAKE→USDT</td><td>BNB</td><td>1</td><td>$5,000</td><td>$29</td><td>$11</td><td class="ok">$18</td><td>0.74</td><td class="ok">$12</td><td>55ms</td><td>DETECTED</td></tr>
+<tr><td>USDC→SOL→JUP→USDC</td><td>SOL</td><td>1</td><td>$2,000</td><td>$9</td><td>$4</td><td class="ok">$5</td><td>0.62</td><td class="ok">$2.6</td><td>12ms</td><td>SUBMITTED</td></tr>
+<tr><td>USDC→ARB→GMX→USDC</td><td>ARB</td><td>2</td><td>$750</td><td>$6</td><td>$5</td><td class="ok">$1</td><td>0.40</td><td class="bad">−$0.9</td><td>40ms</td><td class="bad">REJECTED · EV</td></tr>
+<tr><td>USDC→USDT→DAI→USDC</td><td>ETH</td><td>1</td><td>$20,000</td><td>$31</td><td>$24</td><td class="ok">$7</td><td>0.80</td><td class="ok">$4.1</td><td>210ms</td><td class="bad">STALE</td></tr>
+<tr><td>WETH→LINK→USDC→WETH</td><td>ETH</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>31ms</td><td class="bad">REJECTED · &lt; min entry</td></tr>
+<tr><td>USDC→AERO→WETH→USDC</td><td>BASE</td><td>2</td><td>$4,000</td><td>$22</td><td>$9</td><td class="ok">$13</td><td>0.71</td><td class="ok">$8</td><td>18ms</td><td class="bad">RISK VETO</td></tr>
+</tbody></table>
+</div>
+<div class="panel" style="display: flex; gap: 24px; font-size: 12px; color: #8b93a3"><span>Selected row opens detail →</span><span>Executable only if <strong style="color: #e6e8ee">every</strong> gate is TRUE; otherwise REJECTED with reason</span></div>
+</div>
+<aside class="panel" style="display: flex; flex-direction: column; gap: 12px">
+<div><div class="lbl">Opportunity detail</div><div class="mono" style="font-size: 14px; margin-top: 4px">USDC → WETH → USDT → USDC</div><div style="font-size: 12px; color: #8b93a3">Ethereum · Uniswap v3 0.05% → Curve → Uniswap v3 0.01% · blk 21,904,113</div></div>
+<div><div class="lbl">Size optimization · argmax EV</div>
+<table class="mono"><tbody><tr><td>$10,000</td><td>$91</td></tr><tr><td>$20,000</td><td>$154</td></tr><tr style="background: #1b2a22"><td>$30,000 ◀ optimum</td><td class="ok">$172</td></tr><tr><td>$40,000</td><td>$139</td></tr></tbody></table>
+<div style="font-size: 11px; color: #8b93a3; margin-top: 4px">Safe route capacity $30k (bounded by Pool B) · safety buffer 20%</div></div>
+<div><div class="lbl">Cost breakdown</div>
+<div class="mono" style="font-size: 12px; display: grid; grid-template-columns: 1fr auto; gap: 3px; margin-top: 4px"><span>Gross profit</span><span>$238.00</span><span>DEX fees</span><span>−$21.40</span><span>Flash loan fee</span><span>−$15.00</span><span>Gas + priority</span><span>−$9.80</span><span>MEV/builder tip (8% of 25% cap)</span><span>−$19.80</span><strong>Net profit</strong><strong class="ok">$172.00</strong></div></div>
+<div><div class="lbl">Executability gates</div>
+<div style="font-size: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 4px"><span class="ok">✓ Liquidity</span><span class="ok">✓ Fresh quote</span><span class="ok">✓ Slippage</span><span class="ok">✓ Price impact</span><span class="ok">✓ Min profit</span><span class="ok">✓ EV &gt; 0</span><span class="ok">✓ Risk score 23/100</span><span class="ok">✓ Simulation</span><span class="ok">✓ State fresh</span><span class="ok">✓ Capacity</span></div></div>
+<div class="mono" style="font-size: 11px; color: #8b93a3">snapshot key: chain 1 · blk 21904113 · v 88412 · expires +120ms</div>
+<div style="display: flex; gap: 8px"><button type="button" style="flex-grow: 1; min-height: 40px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Re-simulate</button><button type="button" style="flex-grow: 1; min-height: 40px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Blacklist route</button></div>
+</aside>
+</main>
+</div>
+</div>
+</section>
+<section id="Execution" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Execution &amp; Transactions</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div class="panel"><div class="lbl" style="margin-bottom: 10px">Lifecycle state machine · last hour (every transition audited)</div>
+<div class="mono" style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px">
+<div class="st"><span>DETECTED</span><strong style="font-size: 16px">182k</strong></div><div class="st"><span>SIMULATED</span><strong style="font-size: 16px">1,902</strong></div><div class="st"><span>APPROVED</span><strong style="font-size: 16px">611</strong></div><div class="st"><span>SIGNED</span><strong style="font-size: 16px">352</strong></div><div class="st"><span>SUBMITTED</span><strong style="font-size: 16px">344</strong></div><div class="st"><span>INCLUDED</span><strong style="font-size: 16px">301</strong></div><div class="st"><span>CONFIRMED</span><strong style="font-size: 16px">299</strong></div><div class="st" style="border-color: #2d5a41"><span>FINALIZED</span><strong class="ok" style="font-size: 16px">298</strong></div>
+</div>
+<div class="mono" style="display: flex; gap: 20px; font-size: 12px; margin-top: 10px; color: #8b93a3"><span class="bad">FAILED 43</span><span>EXPIRED 8</span><span>STALE 1,291</span><span>REJECTED 180k</span><span class="bad">REORGANISED 1</span></div></div>
+<div style="display: grid; grid-template-columns: 1fr 360px; gap: 16px">
+<div class="panel" style="padding: 8px 12px">
+<table><thead><tr><th>Tx hash</th><th>Chain</th><th>Route</th><th>Relay</th><th>Gas used</th><th>Tip / % gross</th><th>Net</th><th>Confs</th><th>State</th></tr></thead><tbody class="mono">
+<tr><td><a href="#Trace" style="color: #7fa9ff">0x8f2a…c19e ↗</a></td><td>ETH</td><td>USDC-WETH-USDT</td><td>Flashbots</td><td>412,880</td><td>$19.8 · 8.3%</td><td class="ok">+$172</td><td>64/64</td><td class="ok">FINALIZED</td></tr>
+<tr><td>0x11bd…07aa</td><td>BASE</td><td>USDC-cbETH-WETH</td><td>Private RPC</td><td>288,110</td><td>$2.1 · 3.6%</td><td class="ok">+$41</td><td>3/10</td><td>INCLUDED</td></tr>
+<tr><td>4Tq9…Lm2x</td><td>SOL</td><td>USDC-SOL-JUP</td><td>Jito bundle</td><td>—</td><td>$0.4 · 4.4%</td><td class="bad">−$0.42</td><td>—</td><td class="bad">FAILED</td></tr>
+<tr><td>0x9ac3…fe01</td><td>BNB</td><td>USDT-BNB-CAKE</td><td>bloXroute</td><td>301,540</td><td>$1.1 · 3.8%</td><td class="ok">+$18</td><td>15/15</td><td class="ok">FINALIZED</td></tr>
+<tr><td>0x55e0…2b7d</td><td>ETH</td><td>WETH-LINK-USDC</td><td>Flashbots</td><td>—</td><td>—</td><td>$0</td><td>—</td><td>EXPIRED</td></tr>
+<tr><td>0x3de1…a9c4</td><td>ARB</td><td>USDC-ARB-GMX</td><td>Public (fallback)</td><td>1.2M</td><td>$0.3 · 5.0%</td><td class="ok">+$9</td><td>—</td><td class="bad">REORGANISED</td></tr>
+</tbody></table>
+<div style="font-size: 12px; color: #8b93a3; padding: 10px 4px">Row click → full trace: snapshot key, per-hop balance deltas, simulation result, latency per stage, on-chain receipt.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Nonce manager</div>
+<table class="mono"><thead><tr><th>Key</th><th>On-chain</th><th>Pending</th><th>Stuck</th></tr></thead><tbody><tr><td>ETH-k1</td><td>18,204</td><td>1</td><td>0</td></tr><tr><td>ETH-k2</td><td>9,771</td><td>2</td><td class="bad">1</td></tr><tr><td>BASE-k1</td><td>40,118</td><td>0</td><td>0</td></tr><tr><td>BNB-k1</td><td>22,605</td><td>0</td><td>0</td></tr></tbody></table>
+<button type="button" style="margin-top: 10px; min-height: 40px; width: 100%; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Replace stuck tx (ETH-k2)</button></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">MEV bid policy</div><div style="font-size: 12px; display: flex; flex-direction: column; gap: 4px"><span>Hard cap: tip ≤ 25% of gross (enforced on-chain)</span><span>Avg tip paid today: <strong class="mono">6.1%</strong></span><span>Private relays first · public mempool fallback: <strong>OFF</strong></span></div></div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</section>
+<section id="Risk" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Risk &amp; Kill Switch</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div class="panel"><div class="lbl" style="margin-bottom: 10px">System status</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; font-weight: 600">
+<div style="padding: 14px; border-radius: 8px; background: #1b2a22; border: 2px solid #3fb984; color: #5fd49e">NORMAL ◀ current</div>
+<div style="padding: 14px; border-radius: 8px; background: #1c2330; color: #8b93a3">DEGRADED</div>
+<div style="padding: 14px; border-radius: 8px; background: #1c2330; color: #8b93a3">PAUSED · no new tx</div>
+<div style="padding: 14px; border-radius: 8px; background: #1c2330; color: #8b93a3">EMERGENCY · no new tx</div>
+</div></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px">
+<div class="panel" style="display: flex; flex-direction: column; gap: 10px; border-color: #5c2226"><div class="lbl">Kill switches (independent)</div>
+<div style="display: flex; flex-direction: column; gap: 4px"><strong>Off-chain kill switch</strong><span style="font-size: 12px; color: #8b93a3">Stops tx building, signing loops and relay submission instantly</span><button type="button" style="min-height: 44px; background: #7a1d22; color: #fff; border: 1px solid #e5484d; border-radius: 8px; font-weight: 600; font-family: inherit">Halt all engines</button></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><strong>On-chain emergency pause</strong><span style="font-size: 12px; color: #8b93a3">Proposes pause() to executor contract · needs 2 of 3 multisig signers</span><button type="button" style="min-height: 44px; background: #1c2330; color: #ff8a8e; border: 1px solid #e5484d; border-radius: 8px; font-weight: 600; font-family: inherit">Propose contract pause</button></div>
+<label style="font-size: 12px; color: #8b93a3; display: flex; gap: 6px; align-items: center"><input type="checkbox"> Per-chain pause: Ethereum · BNB · Arbitrum · Base · Solana</label></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 12px"><div class="lbl">Capital preservation limits</div>
+<div><div style="display: flex; justify-content: space-between; font-size: 12px"><span>Max loss / tx</span><span class="mono">$0.42 / $50</span></div><div class="bar"><div style="width: 2%; height: 8px; background: #3fb984"></div></div></div>
+<div><div style="display: flex; justify-content: space-between; font-size: 12px"><span>Hourly loss cap</span><span class="mono">$38 / $250</span></div><div class="bar"><div style="width: 15%; height: 8px; background: #3fb984"></div></div></div>
+<div><div style="display: flex; justify-content: space-between; font-size: 12px"><span>24h loss cap</span><span class="mono">$410 / $1,000</span></div><div class="bar"><div style="width: 41%; height: 8px; background: #f5a524"></div></div></div>
+<div><div style="display: flex; justify-content: space-between; font-size: 12px"><span>Consecutive failures</span><span class="mono">2 / 5</span></div><div class="bar"><div style="width: 40%; height: 8px; background: #f5a524"></div></div></div>
+<div><div style="display: flex; justify-content: space-between; font-size: 12px"><span>Max capital per contract</span><span class="mono">$30k / $250k</span></div><div class="bar"><div style="width: 12%; height: 8px; background: #3fb984"></div></div></div>
+<span style="font-size: 11px; color: #8b93a3">Crossing any cap → GLOBAL HALT</span></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Circuit breaker triggers</div>
+<table><tbody><tr><td>Consecutive failed tx</td><td class="ok">OK</td></tr><tr><td>Hourly / daily loss</td><td class="ok">OK</td></tr><tr><td>Gas spike anomaly</td><td class="ok">OK</td></tr><tr><td>Slippage widening</td><td class="ok">OK</td></tr><tr><td>RPC state divergence</td><td class="warn">TRIPPED · ARB</td></tr><tr><td>Simulation failure ratio</td><td class="ok">OK</td></tr><tr><td>Signature / nonce loops</td><td class="ok">OK</td></tr><tr><td>Contract error results</td><td class="ok">OK</td></tr></tbody></table></div>
+</div>
+<div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">Risk engine veto log</div>
+<table><thead><tr><th>Time</th><th>Route</th><th>Nominal net</th><th>Risk score</th><th>Reason</th></tr></thead><tbody class="mono">
+<tr><td>17:40:12</td><td>USDC→AERO→WETH (BASE)</td><td>$13</td><td class="bad">81</td><td>liquidity flight trend + state age 190ms</td></tr>
+<tr><td>17:36:47</td><td>USDC→USDT→DAI (ETH)</td><td>$7</td><td class="bad">77</td><td>stablecoin depeg watch: DAI reserve imbalance</td></tr>
+</tbody></table></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Infra" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Chains &amp; Infrastructure</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+<div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">RPC endpoints · failover &amp; consistency</div>
+<table><thead><tr><th>Chain</th><th>Endpoint</th><th>Latency</th><th>Head</th><th>Consistency</th></tr></thead><tbody class="mono">
+<tr><td>ETH</td><td>dedicated-1 (ws)</td><td>0.8ms</td><td>21,904,113</td><td class="ok">OK</td></tr>
+<tr><td>ETH</td><td>provider-b</td><td>14ms</td><td>21,904,113</td><td class="ok">OK</td></tr>
+<tr><td>ARB</td><td>dedicated-1 (ws)</td><td>1.1ms</td><td>281,003,551</td><td class="ok">OK</td></tr>
+<tr><td>ARB</td><td>provider-b</td><td>19ms</td><td>281,003,547</td><td class="bad">DIVERGED → UNCERTAIN</td></tr>
+<tr><td>BASE</td><td>dedicated-1 (ws)</td><td>0.9ms</td><td>25,400,218</td><td class="ok">OK</td></tr>
+<tr><td>BNB</td><td>dedicated-1 (ws)</td><td>1.3ms</td><td>44,120,907</td><td class="ok">OK</td></tr>
+<tr><td>SOL</td><td>solana-rpc + Jito</td><td>2.2ms</td><td>322,118,040</td><td class="ok">OK</td></tr>
+</tbody></table></div>
+<div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">Latency per pipeline stage (µs)</div>
+<table><thead><tr><th>Stage</th><th>p50</th><th>p90</th><th>p99</th><th>p99.9</th></tr></thead><tbody class="mono">
+<tr><td>Event ingest</td><td>90</td><td>140</td><td>310</td><td>620</td></tr><tr><td>State sync</td><td>60</td><td>95</td><td>210</td><td>480</td></tr><tr><td>Detection</td><td>120</td><td>190</td><td>420</td><td>900</td></tr><tr><td>Quote + sizing</td><td>340</td><td>520</td><td>1,100</td><td>2,300</td></tr><tr><td>Simulation</td><td>900</td><td>1,400</td><td>2,100</td><td>3,900</td></tr><tr><td>Build + sign</td><td>110</td><td>170</td><td>300</td><td>700</td></tr><tr><td>Relay submit</td><td>240</td><td>480</td><td class="warn">1,300</td><td class="warn">3,100</td></tr>
+</tbody></table></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Asset universe · Hot / Warm / Cold</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px" class="mono">
+<div style="padding: 12px; background: #2a1c1c; border-radius: 8px"><div style="font-size: 11px; color: #ff9a9e">HOT · RAM</div><div style="font-size: 20px">142</div></div>
+<div style="padding: 12px; background: #2a241a; border-radius: 8px"><div style="font-size: 11px; color: #f5c16b">WARM</div><div style="font-size: 20px">611</div></div>
+<div style="padding: 12px; background: #1a2230; border-radius: 8px"><div style="font-size: 11px; color: #8fb4ff">COLD</div><div style="font-size: 20px">1,247</div></div>
+</div><div style="font-size: 12px; color: #8b93a3; margin-top: 8px">2,000 assets tracked · 38 promotions / 21 demotions in last hour · 12 locked out by hygiene audit</div></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Worker pools &amp; containers</div>
+<table class="mono"><tbody>
+<tr><td>data_ingest</td><td>24 workers</td><td class="ok">up</td></tr><tr><td>state_engine</td><td>16</td><td class="ok">up</td></tr><tr><td>graph_processor</td><td>12</td><td class="ok">up</td></tr><tr><td>decision_core</td><td>20</td><td class="ok">up</td></tr><tr><td>risk_guard</td><td>8</td><td class="ok">up</td></tr><tr><td>secure_signer (HSM)</td><td>4</td><td class="ok">up</td></tr><tr><td>telemet_report</td><td>2</td><td class="ok">up</td></tr>
+</tbody></table><div style="font-size: 12px; color: #8b93a3; margin-top: 8px">CPU 41% · RAM 58 / 128 GB · cache hit 99.7%</div></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Analytics" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Analytics &amp; Calibration</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+<div class="panel" style="height: 300px; display: flex; flex-direction: column"><div class="lbl">Expected net profit vs realized (per trade)</div>
+<svg viewBox="0 0 520 230" style="width: 100%; flex-grow: 1"><line x1="20" y1="220" x2="510" y2="10" stroke="#3a4150" stroke-dasharray="4 4"></line><g fill="#4c8dff"><circle cx="60" cy="200" r="4"></circle><circle cx="110" cy="186" r="4"></circle><circle cx="150" cy="170" r="4"></circle><circle cx="200" cy="160" r="4"></circle><circle cx="240" cy="128" r="4"></circle><circle cx="300" cy="120" r="4"></circle><circle cx="350" cy="96" r="4"></circle><circle cx="400" cy="82" r="4"></circle><circle cx="460" cy="50" r="4"></circle></g><g fill="#e5484d"><circle cx="260" cy="210" r="4"></circle><circle cx="330" cy="205" r="4"></circle></g></svg>
+<span style="font-size: 12px; color: #8b93a3">Diagonal = perfect model · red = failed / reverted</span></div>
+<div class="panel" style="height: 300px"><div class="lbl" style="margin-bottom: 8px">Calibration drift</div>
+<table><thead><tr><th>Model</th><th>Predicted</th><th>Realized</th><th>Δ</th><th>Last recalibrated</th></tr></thead><tbody class="mono">
+<tr><td>Net profit</td><td>$5,130</td><td>$4,812</td><td>−6.2%</td><td>17:00</td></tr>
+<tr><td>P(inclusion) ETH</td><td>0.90</td><td>0.87</td><td>−3.3%</td><td>17:00</td></tr>
+<tr><td>P(inclusion) SOL</td><td>0.70</td><td>0.61</td><td class="bad">−12.8%</td><td>16:00</td></tr>
+<tr><td>EV vs settled</td><td>$4,960</td><td>$4,812</td><td>−3.0%</td><td>17:00</td></tr>
+</tbody></table>
+<button type="button" style="margin-top: 12px; min-height: 40px; padding: 0 14px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Force recalibration</button></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">P&amp;L by chain · strategy · tier</div>
+<table><thead><tr><th>Segment</th><th>Trades</th><th>Win %</th><th>Net P&amp;L</th><th>Cost/succ.</th></tr></thead><tbody class="mono">
+<tr><td>ETH · 3-hop core · T1</td><td>84</td><td>93%</td><td class="ok">$1,920</td><td>$6.10</td></tr>
+<tr><td>BASE · blue chips · T1</td><td>71</td><td>90%</td><td class="ok">$1,003</td><td>$1.20</td></tr>
+<tr><td>BNB · cross-DEX · T1</td><td>58</td><td>86%</td><td class="ok">$740</td><td>$1.40</td></tr>
+<tr><td>ARB · long-tail · T2</td><td>49</td><td>79%</td><td class="ok">$612</td><td>$0.90</td></tr>
+<tr><td>SOL · stable tri · T1</td><td>82</td><td>71%</td><td class="ok">$537</td><td>$0.35</td></tr>
+</tbody></table></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Competitive bot interference</div>
+<table><tbody class="mono">
+<tr><td>Rival identical-path attempts</td><td>312 / h</td></tr><tr><td>Priority-fee wars detected</td><td>14 blocks</td></tr><tr><td>Bundle collisions</td><td>22</td></tr><tr><td>Routes saturated → bypassed</td><td>9</td></tr>
+</tbody></table><span style="font-size: 12px; color: #8b93a3">Saturation lowers P(S) and EV automatically</span></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Lab" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Simulation Lab</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; gap: 8px">
+<button type="button" style="min-height: 40px; padding: 0 16px; background: #1c2330; color: #fff; border: 1px solid #3fb984; border-radius: 8px; font-family: inherit">Historical replay</button>
+<a href="#Paper" style="padding: 11px 16px; background: #171a21; color: #aab2c0; border: 1px solid #2c3240; border-radius: 8px; text-decoration: none; font-size: 13px">Paper · Backtest · Fork →</a>
+</div>
+<div style="display: grid; grid-template-columns: 380px 1fr; gap: 16px">
+<div class="panel" style="display: flex; flex-direction: column; gap: 12px"><div class="lbl">Replay setup</div>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Chain<select class="in"><option>Ethereum</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Block range<input class="in" value="21,880,000 – 21,890,000"></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Strategy config<select class="in"><option>TRIANGULAR_3_HOP_CORE · v14</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Latency model<select class="in"><option>Measured p90 (production)</option></select></label>
+<button type="button" style="min-height: 44px; background: #1f6f4a; color: #fff; border: 0; border-radius: 8px; font-weight: 600; font-family: inherit">Run replay</button>
+<span style="font-size: 12px; color: #8b93a3">Answers: “If the bot ran on block N, would it have captured this path?”</span></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 12px"><div class="lbl">Result · run #218</div>
+<div class="mono" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px">
+<div><div style="font-size: 11px; color: #8b93a3">Opps found</div><div style="font-size: 20px">1,184</div></div>
+<div><div style="font-size: 11px; color: #8b93a3">Would capture</div><div style="font-size: 20px">402</div></div>
+<div><div style="font-size: 11px; color: #8b93a3">Sim net P&amp;L</div><div class="ok" style="font-size: 20px">+$9,310</div></div>
+<div><div style="font-size: 11px; color: #8b93a3">Lost to rivals</div><div style="font-size: 20px">211</div></div>
+</div>
+<svg viewBox="0 0 700 150" style="width: 100%"><polyline fill="none" stroke="#3fb984" stroke-width="2" points="0,140 70,132 140,120 210,118 280,96 350,90 420,70 490,60 560,42 630,30 700,20"></polyline></svg></div>
+</div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Mainnet go-live acceptance checklist · 18 / 25 verified</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 20px; font-size: 12px">
+<span class="ok">✓ Flash loan integration live</span><span class="ok">✓ Callback authentication</span><span class="ok">✓ Debt repayment loop tested</span><span class="ok">✓ 25% MEV cap enforced on-chain</span><span class="ok">✓ Stale-data exceptions</span><span class="ok">✓ msg.sender roles (no tx.origin)</span><span class="ok">✓ Nonce manager concurrency</span><span class="ok">✓ RPC failover verified</span><span>☐ HSM signing operational</span><span>☐ Solana/Jito tested</span><span>☐ Fuzz / stress / load logged</span><span>☐ Independent fork audit</span><span>☐ Small-capital mainnet run</span><span style="color: #8b93a3">+ 12 more…</span>
+</div></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Paper" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Simulation Lab</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; gap: 8px"><a href="#Lab" style="padding: 11px 16px; background: #171a21; color: #aab2c0; border: 1px solid #2c3240; border-radius: 8px; text-decoration: none; font-size: 13px">← Historical replay</a><span style="padding: 11px 16px; background: #1c2330; color: #fff; border: 1px solid #3fb984; border-radius: 8px; font-size: 13px">Paper · Backtest · Fork</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<div class="panel" style="display: flex; flex-direction: column; gap: 10px; border-color: #2d5a41"><div style="display: flex; justify-content: space-between"><span class="lbl">Paper trading</span><span class="ok" style="font-size: 12px">● running 6d 2h</span></div>
+<div style="font-size: 12px; color: #8b93a3">Live chain data, real detection, sizing, simulation and signing; payloads are never broadcast.</div>
+<table class="mono"><tbody><tr><td>Hypothetical trades</td><td>2,118</td></tr><tr><td>Hypothetical net</td><td class="ok">+$18,420</td></tr><tr><td>Est. inclusion rate</td><td>84%</td></tr><tr><td>Would-have-failed</td><td>312</td></tr></tbody></table>
+<div style="display: flex; gap: 8px"><button type="button" style="flex-grow: 1; min-height: 40px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Stop</button><button type="button" style="flex-grow: 1; min-height: 40px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Compare with live</button></div></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 10px"><span class="lbl">Backtest</span>
+<div style="font-size: 12px; color: #8b93a3">Runs a strategy config over the history database with measured latency and competition models.</div>
+<table class="mono"><thead><tr><th>Run</th><th>Config</th><th>Period</th><th>Net</th><th>Sharpe</th></tr></thead><tbody><tr><td>#91</td><td>core v14</td><td>30d</td><td class="ok">$58.2k</td><td>2.3</td></tr><tr><td>#90</td><td>core v13</td><td>30d</td><td class="ok">$51.7k</td><td>1.9</td></tr><tr><td>#89</td><td>long-tail v3</td><td>30d</td><td class="bad">−$1.2k</td><td>—</td></tr></tbody></table>
+<button type="button" style="min-height: 40px; background: #1f6f4a; color: #fff; border: 0; border-radius: 8px; font-family: inherit">New backtest</button></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 10px"><span class="lbl">Mainnet fork tests</span>
+<div style="font-size: 12px; color: #8b93a3">Deploys the executor contract on a local fork and runs the full pipeline end to end.</div>
+<table class="mono"><tbody><tr><td>Flash loan callback</td><td class="ok">pass</td></tr><tr><td>Debt repayment</td><td class="ok">pass</td></tr><tr><td>minProfit revert</td><td class="ok">pass</td></tr><tr><td>25% MEV cap</td><td class="ok">pass</td></tr><tr><td>Whitelist rejection</td><td class="ok">pass</td></tr><tr><td>Emergency pause</td><td class="bad">fail</td></tr></tbody></table>
+<button type="button" style="min-height: 40px; background: #1f6f4a; color: #fff; border: 0; border-radius: 8px; font-family: inherit">Run fork suite</button></div>
+</div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Paper vs live · same period</div>
+<table class="mono"><thead><tr><th>Metric</th><th>Paper</th><th>Live</th><th>Gap</th></tr></thead><tbody><tr><td>Net P&amp;L / day</td><td>$3,070</td><td>$2,780</td><td>−9.4%</td></tr><tr><td>Inclusion rate</td><td>84%</td><td>87%</td><td>+3 pts</td></tr><tr><td>Avg slippage vs sim</td><td>—</td><td>0.04%</td><td>—</td></tr></tbody></table></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Trace" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Trade Trace · 0x8f2a…c19e</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div class="panel" style="display: flex; gap: 32px; align-items: center">
+<div><div class="lbl">Route</div><div class="mono">USDC → WETH → USDT → USDC</div></div>
+<div><div class="lbl">Chain</div><div>Ethereum</div></div>
+<div><div class="lbl">Size</div><div class="mono">$30,000 (flash loan · Aave v3)</div></div>
+<div><div class="lbl">Expected / realized net</div><div class="mono">$172.00 / <span class="ok">$168.40</span></div></div>
+<div><div class="lbl">State</div><div class="ok">FINALIZED</div></div>
+<div style="flex-grow: 1"></div>
+<a href="#Execution" style="color: #7fa9ff; font-size: 13px">← Back to transactions</a>
+</div>
+<div class="panel"><div class="lbl" style="margin-bottom: 10px">Per-hop execution (simulated vs on-chain)</div>
+<div class="mono" style="display: flex; gap: 10px; align-items: stretch">
+<div class="hop"><strong>Flash loan in</strong><span>30,000.00 USDC</span><span style="color: #8b93a3">fee 0.05% · $15.00</span></div>
+<div class="hop"><strong>Hop 1 · Uni v3 0.05%</strong><span>USDC → 11.9240 WETH</span><span style="color: #8b93a3">sim 11.9251 · Δ −0.009%</span></div>
+<div class="hop"><strong>Hop 2 · Curve</strong><span>WETH → 30,118.30 USDT</span><span style="color: #8b93a3">sim 30,120.10 · Δ −0.006%</span></div>
+<div class="hop"><strong>Hop 3 · Uni v3 0.01%</strong><span>USDT → 30,229.20 USDC</span><span style="color: #8b93a3">sim 30,232.80 · Δ −0.012%</span></div>
+<div class="hop" style="border-color: #2d5a41"><strong>Repay + minProfit</strong><span>30,015.00 repaid</span><span class="ok">minProfit $150 ✓ passed</span></div>
+</div></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px">
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Immutable snapshot key</div>
+<table class="mono"><tbody><tr><td>chain_id</td><td>1</td></tr><tr><td>block_number</td><td>21,904,113</td></tr><tr><td>state_version</td><td>88412</td></tr><tr><td>input_amount</td><td>30,000 USDC</td></tr><tr><td>expected_output</td><td>30,232.80</td></tr><tr><td>min_output</td><td>30,165.00</td></tr><tr><td>created_at</td><td>17:41:02.118</td></tr><tr><td>expires_at</td><td>17:41:02.238</td></tr></tbody></table></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Latency by stage</div>
+<table class="mono"><tbody><tr><td>state_age</td><td>0.4 ms</td></tr><tr><td>quote_age</td><td>0.9 ms</td></tr><tr><td>simulation_age</td><td>1.8 ms</td></tr><tr><td>transaction_build_time</td><td>0.12 ms</td></tr><tr><td>signing_time (HSM)</td><td>0.31 ms</td></tr><tr><td>relay_latency</td><td>0.9 ms</td></tr><tr><td>inclusion_latency</td><td>9.8 s</td></tr><tr><td>block_distance</td><td>1</td></tr></tbody></table></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Costs · expected vs actual</div>
+<table class="mono"><thead><tr><th>Item</th><th>Exp.</th><th>Actual</th></tr></thead><tbody><tr><td>DEX fees</td><td>$21.40</td><td>$21.40</td></tr><tr><td>Flash loan fee</td><td>$15.00</td><td>$15.00</td></tr><tr><td>Base gas</td><td>$6.10</td><td>$6.70</td></tr><tr><td>Priority fee</td><td>$3.70</td><td>$3.70</td></tr><tr><td>Builder tip</td><td>$19.80</td><td>$19.80</td></tr><tr><td>Slippage vs sim</td><td>—</td><td>$2.40</td></tr></tbody></table>
+<div class="mono" style="font-size: 12px; margin-top: 8px; color: #8b93a3">Relay: Flashbots · Receipt: status 1 · 64 confs</div></div>
+</div>
+</main>
+</div>
+</div>
+</section>
+<section id="Liquidity" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Liquidity Sources</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">Flash loan providers</div>
+<table><thead><tr><th>Provider</th><th>Chain</th><th>Fee</th><th>Available liquidity (USDC)</th><th>Used today</th><th>Callback auth</th><th>Whitelisted</th><th>Enabled</th></tr></thead><tbody class="mono">
+<tr><td>Aave v3</td><td>ETH</td><td>0.05%</td><td>$412M</td><td>$1.9M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Aave v3 ETH"></td></tr>
+<tr><td>Balancer vault</td><td>ETH</td><td>0.00%</td><td>$96M</td><td>$0.8M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Balancer ETH"></td></tr>
+<tr><td>Uniswap v3 flash</td><td>BASE</td><td>pool fee</td><td>$38M</td><td>$0.4M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Uniswap Base"></td></tr>
+<tr><td>PancakeSwap v3</td><td>BNB</td><td>pool fee</td><td>$55M</td><td>$0.3M</td><td class="ok">verified</td><td class="ok">✓</td><td><input type="checkbox" checked aria-label="Enable Pancake BNB"></td></tr>
+<tr><td>Solend / Kamino</td><td>SOL</td><td>0.09%</td><td>$21M</td><td>$0.1M</td><td class="warn">testing</td><td>—</td><td><input type="checkbox" aria-label="Enable Kamino SOL"></td></tr>
+</tbody></table>
+<div style="font-size: 12px; color: #8b93a3; padding: 8px 4px">Loan size per trade = min(lender liquidity, route depth, slippage limit, risk limit) · contract bandwidth cap $100M (technical, not a target)</div></div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+<div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">DEX adapters</div>
+<table><thead><tr><th>Adapter</th><th>Chains</th><th>Router</th><th>Fee tiers</th><th>Status</th></tr></thead><tbody class="mono">
+<tr><td>UniswapV3</td><td>ETH ARB BASE</td><td>0xE592…1564</td><td>0.01/0.05/0.3/1%</td><td class="ok">active</td></tr>
+<tr><td>UniswapV2</td><td>ETH</td><td>0x7a25…488D</td><td>0.3%</td><td class="ok">active</td></tr>
+<tr><td>Curve</td><td>ETH ARB</td><td>per pool</td><td>per pool</td><td class="ok">active</td></tr>
+<tr><td>Aerodrome</td><td>BASE</td><td>0xcF77…b3E3</td><td>stable/volatile</td><td class="ok">active</td></tr>
+<tr><td>PancakeV3</td><td>BNB</td><td>0x1b81…6D81</td><td>0.01–1%</td><td class="ok">active</td></tr>
+<tr><td>Orca / Raydium</td><td>SOL</td><td>program IDs</td><td>per pool</td><td class="warn">testing</td></tr>
+</tbody></table>
+<div style="font-size: 12px; color: #8b93a3; padding: 8px 4px">Each adapter validates router, pool schema, tokens, size limits, min output, deadline. No raw calldata passthrough.</div></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Stablecoin depeg monitor</div>
+<table><thead><tr><th>Asset</th><th>Price</th><th>Pool imbalance</th><th>Freeze / blacklist risk</th><th>Status</th></tr></thead><tbody class="mono">
+<tr><td>USDC</td><td>1.0001</td><td>2%</td><td>issuer can freeze</td><td class="ok">normal</td></tr>
+<tr><td>USDT</td><td>0.9998</td><td>4%</td><td>issuer can freeze</td><td class="ok">normal</td></tr>
+<tr><td>DAI</td><td>0.9981</td><td class="warn">17%</td><td>low</td><td class="warn">watch</td></tr>
+<tr><td>FDUSD</td><td>0.9912</td><td class="bad">31%</td><td>issuer can freeze</td><td class="bad">excluded</td></tr>
+</tbody></table>
+<div style="font-size: 12px; color: #8b93a3; margin-top: 8px">Stablecoins are never treated as fixed at $1; each feeds into the risk score.</div></div>
+</div>
+</main>
+</div>
+</div>
+</section>
+<section id="Capital" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Capital &amp; Asset Tiers</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div class="panel"><div class="lbl">Own capital deployed</div><div class="mono" style="font-size: 22px; margin-top: 6px">$84,200</div><div style="font-size: 12px; color: #8b93a3">across 5 chains</div></div>
+<div class="panel"><div class="lbl">Flash-loan share of volume</div><div class="mono" style="font-size: 22px; margin-top: 6px">71%</div></div>
+<div class="panel"><div class="lbl">Current max exposure / trade</div><div class="mono" style="font-size: 22px; margin-top: 6px">$30,000</div><div style="font-size: 12px; color: #8b93a3">set by scaling policy</div></div>
+<div class="panel"><div class="lbl">Next scaling review</div><div class="mono" style="font-size: 22px; margin-top: 6px">in 3d 4h</div></div>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Adaptive capital scaling · evidence</div>
+<table><thead><tr><th>Criterion</th><th>Required</th><th>Observed (14d)</th><th></th></tr></thead><tbody class="mono">
+<tr><td>Realized pool depth</td><td>≥ 3× size</td><td>4.1×</td><td class="ok">✓</td></tr>
+<tr><td>Success ratio</td><td>≥ 85%</td><td>87.3%</td><td class="ok">✓</td></tr>
+<tr><td>p99 latency</td><td>≤ 8 ms</td><td>4.7 ms</td><td class="ok">✓</td></tr>
+<tr><td>Risk index stable</td><td>σ ≤ 5</td><td>6.2</td><td class="bad">✗</td></tr>
+<tr><td>EV model accuracy</td><td>|Δ| ≤ 5%</td><td>6.2%</td><td class="bad">✗</td></tr>
+</tbody></table>
+<div style="font-size: 12px; color: #f5a524; margin-top: 8px">Scale-up blocked: 2 criteria unmet. A winning streak alone never raises limits.</div>
+<button type="button" disabled style="margin-top: 10px; min-height: 40px; padding: 0 14px; background: #1c2330; color: #6b7280; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Approve scale-up to $40,000</button></div>
+<div class="panel"><div class="lbl" style="margin-bottom: 8px">Limit history</div>
+<table><thead><tr><th>Date</th><th>Max / trade</th><th>Reason</th></tr></thead><tbody class="mono">
+<tr><td>Sep 21</td><td>$30,000</td><td>all criteria met</td></tr><tr><td>Sep 07</td><td>$20,000</td><td>all criteria met</td></tr><tr><td>Aug 30</td><td>$10,000</td><td>go-live (small capital)</td></tr>
+</tbody></table></div>
+</div>
+<div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">Hot / Warm / Cold · recent promotions &amp; demotions</div>
+<table><thead><tr><th>Time</th><th>Asset</th><th>Chain</th><th>External rank</th><th>Internal score</th><th>Move</th><th>Driver</th></tr></thead><tbody class="mono">
+<tr><td>17:32</td><td>AERO</td><td>BASE</td><td>1,512</td><td>91</td><td class="ok">WARM → HOT</td><td>arb frequency + realized EV</td></tr>
+<tr><td>17:25</td><td>GMX</td><td>ARB</td><td>210</td><td>34</td><td class="warn">HOT → WARM</td><td>bot saturation, win rate ↓</td></tr>
+<tr><td>17:11</td><td>JUP</td><td>SOL</td><td>64</td><td>77</td><td class="ok">COLD → WARM</td><td>depth ↑, spreads ↑</td></tr>
+<tr><td>16:58</td><td>LDO</td><td>ETH</td><td>48</td><td>12</td><td class="bad">WARM → COLD</td><td>no executable spread 24h</td></tr>
+</tbody></table></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Audit" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Audit Log</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<span class="chip">Category: All ▾</span><span class="chip">Trade state transitions</span><span class="chip">Operator actions</span><span class="chip">Config changes</span><span class="chip">Breakers &amp; kill switch</span><span class="chip">Reorgs</span><span class="chip">Search opportunity ID / tx hash…</span>
+</div>
+<div class="panel" style="padding: 8px 12px">
+<table><thead><tr><th>Timestamp (µs)</th><th>Category</th><th>Subject</th><th>Transition / action</th><th>Actor</th><th>Detail</th></tr></thead><tbody class="mono">
+<tr><td>17:41:02.118204</td><td>trade</td><td>opp-9f21e</td><td>DETECTED → SIMULATED</td><td>engine</td><td>sim ok · gas 412,880</td></tr>
+<tr><td>17:41:02.120911</td><td>trade</td><td>opp-9f21e</td><td>SIMULATED → APPROVED</td><td>risk_guard</td><td>score 23</td></tr>
+<tr><td>17:41:02.121230</td><td>trade</td><td>opp-9f21e</td><td>APPROVED → SIGNED</td><td>secure_signer</td><td>ETH-k1 nonce 18,204</td></tr>
+<tr><td>17:41:02.122140</td><td>trade</td><td>opp-9f21e</td><td>SIGNED → SUBMITTED</td><td>engine</td><td>Flashbots</td></tr>
+<tr><td>17:41:11.902551</td><td>trade</td><td>opp-9f21e</td><td>SUBMITTED → INCLUDED</td><td>settlement_mon</td><td>blk 21,904,114</td></tr>
+<tr><td>17:53:59.004120</td><td>trade</td><td>opp-9f21e</td><td class="ok">CONFIRMED → FINALIZED</td><td>settlement_mon</td><td>64 confs</td></tr>
+<tr><td>17:39:44.551002</td><td class="bad">reorg</td><td>opp-7c0a2 (ARB)</td><td class="bad">INCLUDED → REORGANISED</td><td>settlement_mon</td><td>block 281,003,540 orphaned</td></tr>
+<tr><td>17:38:10.000311</td><td class="warn">breaker</td><td>Arbitrum</td><td class="warn">NORMAL → DEGRADED</td><td>rpc_monitor</td><td>endpoint divergence</td></tr>
+<tr><td>17:20:05.117000</td><td>config</td><td>safety_buffer</td><td>18% → 20%</td><td>operator</td><td>from 2FA session · IP 203.0.x.x</td></tr>
+<tr><td>16:02:41.600900</td><td>operator</td><td>inst-05</td><td>run → paused</td><td>operator</td><td>manual</td></tr>
+</tbody></table>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #8b93a3"><span>Append-only · entries can’t be edited or deleted from the console</span><span>Page 1 of 4,812 · Export CSV</span></div>
+</main>
+</div>
+</div>
+</section>
+<section id="History" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">History &amp; Export</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div class="panel" style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap">
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Date range<input class="in" value="2026-09-01 → 2026-09-28"></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Chain<select class="in"><option>All</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Outcome<select class="in"><option>All</option><option>Finalized</option><option>Failed</option><option>Reorged</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8b93a3">Token / route / tx hash<input class="in" value="WETH"></label>
+<button type="button" style="min-height: 40px; padding: 0 16px; background: #1f6f4a; color: #fff; border: 0; border-radius: 8px; font-family: inherit">Search</button>
+<div style="flex-grow: 1"></div>
+<button type="button" style="min-height: 40px; padding: 0 14px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Export CSV</button>
+<button type="button" style="min-height: 40px; padding: 0 14px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Export Parquet</button>
+<button type="button" style="min-height: 40px; padding: 0 14px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">Send to replay</button>
+</div>
+<div class="mono" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px">
+<div class="panel"><div class="lbl">Trades</div><div style="font-size: 20px">6,904</div></div>
+<div class="panel"><div class="lbl">Net P&amp;L</div><div class="ok" style="font-size: 20px">+$61,340</div></div>
+<div class="panel"><div class="lbl">Gas spent</div><div style="font-size: 20px">$9,880</div></div>
+<div class="panel"><div class="lbl">MEV tips paid</div><div style="font-size: 20px">$14,120</div></div>
+<div class="panel"><div class="lbl">Failed-tx cost</div><div class="bad" style="font-size: 20px">$1,204</div></div>
+</div>
+<div class="panel" style="padding: 8px 12px">
+<table><thead><tr><th>Time</th><th>Chain</th><th>Route</th><th>Size</th><th>Gas limit / used</th><th>Slippage tgt / actual</th><th>Loan fee</th><th>Tip</th><th>Net</th><th>Outcome</th></tr></thead><tbody class="mono">
+<tr><td>09-28 17:41</td><td>ETH</td><td><a href="#Trace" style="color: #7fa9ff">USDC-WETH-USDT</a></td><td>$30,000</td><td>480k / 413k</td><td>0.30% / 0.03%</td><td>$15.00</td><td>$19.80</td><td class="ok">+$168</td><td>FINALIZED</td></tr>
+<tr><td>09-28 17:12</td><td>BASE</td><td>USDC-WETH-cbETH</td><td>$6,000</td><td>350k / 291k</td><td>0.30% / 0.05%</td><td>$0</td><td>$1.40</td><td class="ok">+$22</td><td>FINALIZED</td></tr>
+<tr><td>09-28 16:40</td><td>ARB</td><td>WETH-ARB-USDC</td><td>$2,000</td><td>1.4M / 1.2M</td><td>0.50% / —</td><td>$1.00</td><td>$0.30</td><td class="bad">−$0.61</td><td>FAILED</td></tr>
+<tr><td>09-27 23:02</td><td>ETH</td><td>WETH-LINK-USDC</td><td>$12,000</td><td>460k / 402k</td><td>0.30% / 0.08%</td><td>$6.00</td><td>$7.10</td><td class="ok">+$54</td><td>FINALIZED</td></tr>
+</tbody></table></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Settings" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; background: #0f1115">
+
+<nav style="width: 220px; height: 900px; box-sizing: border-box; background: #0b0d11; border-right: 1px solid #232833; display: flex; flex-direction: column; padding: 20px 12px; gap: 4px; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<div style="display: flex; align-items: center; gap: 10px; padding: 0 8px 20px 8px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg>
+<div style="display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px">TRI-ARB</span><span style="font-size: 11px; color: #8b93a3">Operator Console</span></div>
+</div>
+<a href="#Main" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Dashboard</a><a href="#Opportunities" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Opportunities</a><a href="#Execution" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Execution</a><a href="#Risk" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Risk &amp; Kill Switch</a><a href="#Infra" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Chains &amp; Infra</a><a href="#Analytics" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Analytics</a><a href="#Lab" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Simulation Lab</a><a href="#Trace" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Trade Trace</a><a href="#Liquidity" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Liquidity Sources</a><a href="#Capital" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Capital &amp; Tiers</a><a href="#Audit" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">Audit Log</a><a href="#History" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;color:#aab2c0">History &amp; Export</a><a href="#Settings" style="display:block;padding:8px 12px;border-radius:8px;font-size:14px;background:#1c2330;color:#fff;font-weight:600;box-shadow:inset 3px 0 0 #3fb984">Configuration</a>
+<div style="flex-grow: 1"></div>
+<div style="border-top: 1px solid #232833; padding: 14px 8px 0 8px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #8b93a3">
+<span>Operator · [OPERATOR NAME]</span>
+<span>Session locked to 2FA + IP allowlist</span>
+<a href="#Login" style="color: #e5484d">Lock console</a>
+</div>
+</nav>
+
+<div style="width: 1220px; display: flex; flex-direction: column">
+
+<header style="width: 1220px; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid #232833; background: #0f1115; font-family: 'IBM Plex Sans', sans-serif; color: #e6e8ee">
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; flex-grow: 1">Configuration</h1>
+<label style="font-size: 12px; color: #8b93a3" for="chainSel">Chain</label>
+<select id="chainSel" style="background: #171a21; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 6px; padding: 6px 10px; font-size: 13px"><option>All chains</option><option>Ethereum</option><option>BNB Chain</option><option>Arbitrum</option><option>Base</option><option>Solana</option></select>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">MODE: LIVE</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 5px 10px; border-radius: 6px; background: #1b2a22; color: #5fd49e; border: 1px solid #2d5a41">SYSTEM: NORMAL</span>
+<span style="font-size: 12px; color: #8b93a3">SAMPLE DATA</span>
+<a href="#KillConfirm" style="background: #7a1d22; color: #ffffff; border: 1px solid #e5484d; border-radius: 8px; padding: 11px 14px; font-size: 13px; font-weight: 600; text-decoration: none">Kill switch</a>
+</header>
+
+<main style="padding: 20px 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<div class="panel" style="display: flex; flex-direction: column; gap: 10px"><div class="lbl">Sizing &amp; profit rules</div>
+<label class="row">Min entry · rank 1–1000 (USDT)<input class="in" value="1000"></label>
+<label class="row">Min entry · rank 1001–2000<input class="in" value="250"></label>
+<label class="row">Max size<input class="in" value="DYNAMIC" disabled></label>
+<label class="row">Liquidity safety buffer<input class="in" value="20%"></label>
+<label class="row">Min net profit threshold<input class="in" value="$5"></label>
+<label class="row">MEV tip ceiling (% gross)<input class="in" value="25%" disabled></label>
+<label class="row">Latency budget<input class="in" value="8 ms"></label>
+<label class="row">Public mempool fallback<input type="checkbox"></label>
+<span style="font-size: 11px; color: #8b93a3">Greyed values are hard limits set in the contract — changes need a multisig tx.</span></div>
+<div class="panel" style="padding: 8px 12px"><div class="lbl" style="padding: 8px 4px">Engine instances · specialization</div>
+<table><thead><tr><th>Instance</th><th>Tags</th><th>State</th></tr></thead><tbody class="mono">
+<tr><td>inst-01</td><td>TRIANGULAR_3_HOP_CORE · ETH</td><td class="ok">run</td></tr>
+<tr><td>inst-02</td><td>STABLECOIN_TRI_LOW_LAT · ETH</td><td class="ok">run</td></tr>
+<tr><td>inst-03</td><td>HIGH_LIQ_BLUE_CHIPS · BASE</td><td class="ok">run</td></tr>
+<tr><td>inst-04</td><td>CROSS_DEX_AGGRESSIVE · BNB</td><td class="ok">run</td></tr>
+<tr><td>inst-05</td><td>LONG_TAIL_EXPLORER · ARB</td><td style="color: #f5a524">paused</td></tr>
+<tr><td>inst-06</td><td>TRIANGULAR_3_HOP_CORE · SOL</td><td class="ok">run</td></tr>
+</tbody></table>
+<button type="button" style="margin: 10px 4px; min-height: 40px; padding: 0 14px; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; font-family: inherit">+ Add instance</button></div>
+<div class="panel" style="display: flex; flex-direction: column; gap: 10px"><div class="lbl">Signing &amp; access</div>
+<div class="row"><span>HSM signer</span><span class="ok">● connected</span></div>
+<div class="row"><span>Signing keys (5 chains)</span><span class="mono">addresses only</span></div>
+<div class="row"><span>Contract owner</span><span class="mono">Safe 2-of-3</span></div>
+<div class="row"><span>Withdrawal limit</span><span class="mono">hardcoded</span></div>
+<span style="font-size: 11px; color: #8b93a3">Private keys are never shown or entered in this UI.</span>
+<div class="lbl" style="margin-top: 8px">Alerts (read-only Telegram)</div>
+<label class="row">Execution failures<input type="checkbox" checked></label>
+<label class="row">RPC drops / divergence<input type="checkbox" checked></label>
+<label class="row">Stuck nonces<input type="checkbox" checked></label>
+<label class="row">Breaker / kill switch<input type="checkbox" checked></label></div>
+<div class="panel" style="grid-column: span 3; padding: 8px 12px"><div style="display: flex; gap: 8px; padding: 8px 4px; align-items: center"><span class="lbl" style="flex-grow: 1">Whitelists</span><span style="font-size: 12px; padding: 5px 10px; background: #1c2330; border-radius: 6px">Tokens</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Routers / DEX adapters</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Pools</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Flash loan providers</span><span style="font-size: 12px; padding: 5px 10px; color: #8b93a3">Builders / relays</span></div>
+<table><thead><tr><th>Token</th><th>Chain</th><th>Rank</th><th>Set</th><th>Hygiene audit</th><th>Flags</th><th>On-chain whitelist</th></tr></thead><tbody class="mono">
+<tr><td>USDC</td><td>ETH</td><td>7</td><td>HOT</td><td class="ok">PASS</td><td>blacklist fn, upgradeable (known)</td><td class="ok">✓</td></tr>
+<tr><td>cbETH</td><td>BASE</td><td>88</td><td>HOT</td><td class="ok">PASS</td><td>—</td><td class="ok">✓</td></tr>
+<tr><td>PEPE2</td><td>ETH</td><td>1,540</td><td>—</td><td class="bad">FAIL</td><td>fee-on-transfer, pause fn</td><td class="bad">locked out</td></tr>
+</tbody></table></div>
+</main>
+</div>
+</div>
+</section>
+<section id="Login" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; align-items: center; justify-content: center; background: #0b0d11">
+<form style="width: 400px; background: #171a21; border: 1px solid #262b36; border-radius: 14px; padding: 36px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<div style="display: flex; align-items: center; gap: 10px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3fb984" stroke-width="2"><path d="M12 3 21 19H3Z"></path></svg><strong style="font-size: 18px">TRI-ARB Operator Console</strong></div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Username<input class="in" value="operator"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Password<input class="in" type="password" value="password"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">2FA code (TOTP / hardware key)<input class="in" value="" placeholder="6-digit code"></label>
+<a href="#Main" style="min-height: 44px; display: flex; align-items: center; justify-content: center; background: #1f6f4a; color: #fff; border-radius: 8px; font-weight: 600; text-decoration: none">Sign in</a>
+<div style="font-size: 12px; color: #8b93a3; display: flex; flex-direction: column; gap: 4px"><span>Single operator account · access only from allowlisted IP / VPN</span><span>Session auto-locks after 15 min idle · all logins written to the audit log</span></div>
+</form>
+</div>
+</section>
+<section id="KillConfirm" class="screen">
+<div style="width: 1440px; height: 900px; display: flex; align-items: center; justify-content: center; background: #07080b">
+<div role="dialog" aria-labelledby="kt" style="width: 520px; background: #171a21; border: 1px solid #e5484d; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<h2 id="kt" style="margin: 0; font-size: 20px; color: #ff8a8e">Halt all engines?</h2>
+<p style="margin: 0; font-size: 14px; color: #cfd5df; line-height: 1.5">This stops transaction building, signing and relay submission on every chain immediately. Transactions already submitted can’t be recalled; they will be tracked to settlement.</p>
+<fieldset style="border: 1px solid #2c3240; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px"><legend style="color: #8b93a3; padding: 0 6px">Scope</legend>
+<label style="display: flex; gap: 8px"><input type="radio" name="scope" checked> All chains (off-chain kill switch)</label>
+<label style="display: flex; gap: 8px"><input type="radio" name="scope"> Single chain…</label>
+<label style="display: flex; gap: 8px"><input type="radio" name="scope"> Also propose on-chain contract pause (needs 2 of 3 multisig signers)</label></fieldset>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Type HALT to confirm<input class="in" value=""></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #aab2c0">Reason (saved to audit log)<input class="in" value=""></label>
+<div style="display: flex; gap: 10px; justify-content: flex-end">
+<a href="#Main" style="min-height: 44px; padding: 0 18px; display: flex; align-items: center; background: #1c2330; color: #e6e8ee; border: 1px solid #2c3240; border-radius: 8px; text-decoration: none">Cancel</a>
+<a href="#Risk" style="min-height: 44px; padding: 0 18px; display: flex; align-items: center; background: #7a1d22; color: #fff; border: 1px solid #e5484d; border-radius: 8px; font-weight: 600; text-decoration: none">Halt now</a>
+</div>
+<p style="margin: 0; font-size: 12px; color: #8b93a3">Resuming requires re-login with 2FA and a green pre-flight check on every chain.</p>
+</div>
+</div>
+</section>
+</div>
+<script>
+var ids=[].map.call(document.querySelectorAll('.screen'),function(s){return s.id});
+function show(){var id=location.hash.slice(1);if(ids.indexOf(id)<0)id='Main';
+ids.forEach(function(i){document.getElementById(i).classList.toggle('on',i===id)});document.getElementById('jump').value=id;fit()}
+function fit(){var st=document.getElementById('stage');var s=document.getElementById('fit').checked?Math.min(window.innerWidth/1440,(window.innerHeight-40)/900):1;st.style.transform='scale('+s+')';st.style.left=Math.max(0,(window.innerWidth-1440*s)/2)+'px'}
+function step(d){var i=ids.indexOf(document.getElementById('jump').value);location.hash=ids[(i+d+ids.length)%ids.length]}
+document.getElementById('jump').onchange=function(e){location.hash=e.target.value};
+document.getElementById('prev').onclick=function(){step(-1)};document.getElementById('next').onclick=function(){step(1)};
+document.getElementById('fit').onchange=fit;
+document.addEventListener('submit',function(e){e.preventDefault()});
+window.addEventListener('hashchange',show);window.addEventListener('resize',fit);show();
+</script></body></html>
